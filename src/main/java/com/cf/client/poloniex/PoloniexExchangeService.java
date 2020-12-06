@@ -322,6 +322,41 @@ public class PoloniexExchangeService implements ExchangeService {
 
         return tradeHistory;
     }
+    
+    @Override
+    public List<PoloniexTradeHistory> returnTradeHistoryPublic(String currencyPair) {
+        long start = System.currentTimeMillis();
+        List<PoloniexTradeHistory> tradeHistory = new ArrayList<PoloniexTradeHistory>();
+        try {
+            String tradeHistoryData = publicClient.returnTradeHistoryPublic(currencyPair);
+            tradeHistory = mapper.mapTradeHistory(tradeHistoryData);
+            LOG.trace("Retrieved and mapped {} {} trade history in {} ms", tradeHistory.size(), currencyPair, System.currentTimeMillis() - start);
+            return tradeHistory;
+        } catch (Exception ex) {
+            LOG.error("Error retrieving trade history public for {} - {}", currencyPair, ex.getMessage());
+        }
+
+        return tradeHistory;
+    }
+    
+    @Override
+    public List<PoloniexTradeHistory> returnTradeHistoryPublic(String currencyPair, Long startEpochSeconds,
+    		Long endEpochSeconds) {
+    	long start = System.currentTimeMillis();
+        List<PoloniexTradeHistory> tradeHistory = new ArrayList<PoloniexTradeHistory>();
+        try {
+            String tradeHistoryData = publicClient.returnTradeHistoryPublic(currencyPair, startEpochSeconds, endEpochSeconds);
+            tradeHistory = mapper.mapTradeHistory(tradeHistoryData);
+            LOG.trace("Retrieved and mapped {} {} trade history in {} ms", 
+            		tradeHistory.size(), currencyPair, System.currentTimeMillis() - start);
+            return tradeHistory;
+        } catch (Exception ex) {
+            LOG.error("Error retrieving trade history public for {} - start : {} - end : {} - {}", 
+            		currencyPair, startEpochSeconds, endEpochSeconds, ex.getMessage());
+        }
+
+        return tradeHistory;
+    }
 
     @Override
     public List<PoloniexOrderTrade> returnOrderTrades(String orderNumber) {

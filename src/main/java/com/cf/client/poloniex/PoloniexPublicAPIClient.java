@@ -47,6 +47,32 @@ public class PoloniexPublicAPIClient implements PriceDataAPIClient
 
         return null;
     }
+    
+    @Override
+    public String returnTradeHistoryPublic(String currencyPair) {
+    	try {
+            String url = PUBLIC_URL + "command=returnTradeHistory&currencyPair=" + currencyPair; 
+            return client.getHttp(url, null);
+        }
+        catch (IOException ex) {
+            LogManager.getLogger(PoloniexPublicAPIClient.class).warn("Call to return public trade history with currencyPair API resulted in exception - " + ex.getMessage(), ex);
+        }
+
+        return null;
+    }
+    
+    @Override
+    public String returnTradeHistoryPublic(String currencyPair, Long startEpochSeconds, Long endEpochSeconds) {
+    	try {
+            String url = PUBLIC_URL + "command=returnTradeHistory&currencyPair=" + currencyPair + "&start=" + startEpochSeconds + "&end=" + endEpochSeconds;
+            return client.getHttp(url, null);
+        }
+        catch (IOException ex) {
+            LogManager.getLogger(PoloniexPublicAPIClient.class).warn("Call to return public trade history with currencyPair, start, end API resulted in exception - " + ex.getMessage(), ex);
+        }
+
+        return null;
+    }
 
     @Override
     public String getUSDBTCChartData(Long periodInSeconds, Long startEpochInSeconds)

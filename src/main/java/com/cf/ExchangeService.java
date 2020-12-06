@@ -40,6 +40,9 @@ public interface ExchangeService {
     public List<PoloniexOpenOrder> returnOpenOrders(String currencyName);
 
     public List<PoloniexTradeHistory> returnTradeHistory(String currencyPair);
+    
+    public List<PoloniexTradeHistory> returnTradeHistoryPublic(String currencyPair);
+    public List<PoloniexTradeHistory> returnTradeHistoryPublic(String currencyPair, Long startEpochSeconds, Long endEpochSeconds);
 
     public List<PoloniexOrderTrade> returnOrderTrades(String orderNumber);
 
