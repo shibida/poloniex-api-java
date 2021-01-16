@@ -70,6 +70,35 @@ public class PoloniexExchangeService implements ExchangeService {
 
         return chartData;
     }
+    
+    /**
+     * *
+     * Returns candlestick chart data for the given currency pair
+     *
+     * @param currencyPair Examples: USDT_ETH, USDT_BTC, BTC_ETH
+     * @param periodInSeconds The candlestick chart data period. Valid values
+     * are 300 (5 min), 900 (15 minutes), 7200 (2 hours), 14400 (4 hours), 86400
+     * (daily)
+     * @param startEpochInSeconds UNIX timestamp format and used to specify the
+     * start date of the data returned
+     * @param endEpochInSeconds UNIX timestamp format and used to specify the
+     * end date of the data returned
+     * @return List of PoloniexChartData
+     */
+    @Override
+    public List<PoloniexChartData> returnChartData(String currencyPair, Long periodInSeconds, Long startEpochInSeconds, Long endEpochInSeconds) {
+        long start = System.currentTimeMillis();
+        List<PoloniexChartData> chartData = new ArrayList<PoloniexChartData>();
+        try {
+            String chartDataResult = publicClient.getChartData(currencyPair, periodInSeconds, startEpochInSeconds, endEpochInSeconds);
+            chartData = mapper.mapChartData(chartDataResult);
+            LOG.debug("Retrieved and mapped {} chart data in {} ms", currencyPair, (System.currentTimeMillis() - start));
+        } catch (Exception ex) {
+            LOG.error("Error retrieving chart data for {} - {}", currencyPair, ex.getMessage());
+        }
+
+        return chartData;
+    }
 
     /**
      * *

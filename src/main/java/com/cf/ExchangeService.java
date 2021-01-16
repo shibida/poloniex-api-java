@@ -24,6 +24,7 @@ public interface ExchangeService {
     public final static Long LONG_LONG_AGO = 1_439_000_000L;
 
     public List<PoloniexChartData> returnChartData(String currencyPair, Long periodInSeconds, Long startEpochInSeconds);
+    public List<PoloniexChartData> returnChartData(String currencyPair, Long periodInSeconds, Long startEpochInSeconds, Long endEpochInSeconds);
 
     public Map<String, PoloniexTicker> returnTicker();
 
